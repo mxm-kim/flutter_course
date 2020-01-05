@@ -1,18 +1,36 @@
 import 'package:flutter/material.dart';
 
 class Products extends StatelessWidget {
-  final List<String> products;
+  final List<Map> products;
+  final Function deleteProduct;
 
-  Products([this.products = const []]) {
+  Products(this.products, {this.deleteProduct}) {
     print("[Products Widget] constructor");
   }
 
   Widget _buildProductItem(context, index) {
+    String title = products[index]['title'];
+    String imageUrl = products[index]['imageUrl'];
     return Card(
       child: Column(
         children: <Widget>[
-          Image.asset('assets/food.jpeg'),
-          Text(products[index]),
+          Image.asset(imageUrl),
+          Text(title),
+          ButtonBar(
+            alignment: MainAxisAlignment.center,
+            children: <Widget>[
+              FlatButton(
+                  child: Text('Details'),
+                  onPressed: () => Navigator.pushNamed<bool>(
+                              context, '/product/' + index.toString())
+                          .then((value) {
+                        print(value);
+                        if (value) {
+                          deleteProduct(index);
+                        }
+                      })),
+            ],
+          )
         ],
       ),
     );
