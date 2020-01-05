@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+
 import 'product_manager.dart';
 
-main() => runApp(MyApp());
+main() {
+  // debugPaintSizeEnabled = true;
+  // debugPaintBaselinesEnabled = true;
+  // debugPaintPointersEnabled = true;
+  runApp(MyApp());
+}
 
 class MyApp extends StatefulWidget {
   @override
@@ -15,7 +22,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
         theme: ThemeData(
-          brightness: Brightness.dark,
+          // brightness: Brightness.dark,
           primarySwatch: Colors.deepOrange,
           accentColor: Colors.deepPurple,
         ),
@@ -23,6 +30,6 @@ class _MyAppState extends State<MyApp> {
             appBar: AppBar(
               title: Text('EasyList'),
             ),
-            body: ProductManager(startingProduct: 'Starting Product')));
+            body: ProductManager()));
   }
 }

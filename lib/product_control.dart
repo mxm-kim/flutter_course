@@ -5,7 +5,6 @@ class ProductControl extends StatelessWidget {
 
   ProductControl(this.addProductHandler);
 
-
   @override
   Widget build(BuildContext context) {
     return Container(
