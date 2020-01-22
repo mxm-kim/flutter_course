@@ -1,12 +1,13 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import '../models/product.dart';
 
 class ProductEditPage extends StatefulWidget {
   final Function addProduct;
   final Function updateProduct;
   final int productIndex;
-  Map<String, dynamic> product;
+  Product product;
 
   ProductEditPage({this.addProduct, this.updateProduct, this.product, this.productIndex});
 
@@ -17,19 +18,17 @@ class ProductEditPage extends StatefulWidget {
 }
 
 class _ProductEditPageState extends State<ProductEditPage> {
-  Map<String, dynamic> _formData = {
-    'title': null,
-    'description': null,
-    'price': null,
-    'imageUrl': 'assets/food.jpeg'
-  };
+  String _title;
+  String _description;
+  double _price;
+  String _imageUrl = 'assets/food.jpeg';
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   Widget _makeNameTextGroup() {
     return TextFormField(
       decoration: InputDecoration(labelText: 'Product title'),
-      initialValue: widget.product == null ? '' : widget.product['title'],
+      initialValue: widget.product == null ? '' : widget.product.title,
       validator: (String value) {
         if (value.trim().isEmpty) {
           return 'Title is required';
@@ -37,7 +36,7 @@ class _ProductEditPageState extends State<ProductEditPage> {
         return null;
       },
       onSaved: (String value) {
-        _formData['title'] = value;
+        _title = value;
       },
     );
   }
@@ -45,7 +44,7 @@ class _ProductEditPageState extends State<ProductEditPage> {
   Widget _makePriceTextGroup() {
     return TextFormField(
       decoration: InputDecoration(labelText: 'Product price'),
-      initialValue: widget.product == null ? '' : widget.product['price'].toString(),
+      initialValue: widget.product == null ? '' : widget.product.price.toString(),
       keyboardType: TextInputType.number,
       validator: (String value) {
         double doubleValue = double.parse(value);
@@ -62,7 +61,7 @@ class _ProductEditPageState extends State<ProductEditPage> {
       onSaved: (String value) {
         double doubleValue = double.parse(value);
         if (doubleValue != null) {
-          _formData['price'] = doubleValue;
+          _price = doubleValue;
         }
       },
     );
@@ -71,10 +70,10 @@ class _ProductEditPageState extends State<ProductEditPage> {
   Widget _makeDescriptionTextGroup() {
     return TextFormField(
       decoration: InputDecoration(labelText: 'Product description'),
-      initialValue: widget.product == null ? '' : widget.product['description'],
+      initialValue: widget.product == null ? '' : widget.product.description,
       maxLines: 4,
       onSaved: (String value) {
-        _formData['description'] = value;
+        _description = value;
       },
     );
   }
@@ -86,11 +85,12 @@ class _ProductEditPageState extends State<ProductEditPage> {
       return;
     }
     _formKey.currentState.save();
+    Product newProduct = Product(title: _title, description: _description, price: _price, imageUrl: _imageUrl);
 
     if (widget.product == null) {
-      widget.addProduct(_formData);
+      widget.addProduct(newProduct);
     } else {
-      widget.updateProduct(widget.productIndex, _formData);
+      widget.updateProduct(widget.productIndex, newProduct);
     }
     Navigator.popAndPushNamed(context, '/products');
   }

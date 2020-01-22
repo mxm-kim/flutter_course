@@ -2,19 +2,20 @@ import 'package:flutter/material.dart';
 
 import '../ui_elements/title_default.dart';
 import './price_tag.dart';
+import '../../models/product.dart';
 
 
 class ProductCard extends StatelessWidget {
-  final Map<String, dynamic> product;
+  final Product product;
   final int index;
 
   ProductCard(this.product, {this.index});
 
   @override
   Widget build(BuildContext context) {
-    String title = product['title'];
-    String imageUrl = product['imageUrl'];
-    String price = product['price'].toString();
+    String title = product.title;
+    String imageUrl = product.imageUrl;
+    String price = product.price.toString();
 
     return Card(
       child: Column(
